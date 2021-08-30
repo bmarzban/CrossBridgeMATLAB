@@ -40,25 +40,20 @@ for j = 1:mm
 %    legend(num2str(Velocity(j)))
 % clear T Y SL
  Force (j) = mean(Ftotal(find(SL < 2.01 & SL>1.99),j))
- if j==1;
- Force (1) = max(Ftotal(:,j));
+ Force (1) = 0;
  end
-end
 figure(1)
 legend( '0'       , '-1 um/s'  ,        '-2 um/s'    ,    '-3 um/s'    ,      '-4um/s',    '-5 um/s'    ,      '-6um/s')
 figure(2)
 legend( '0'       , '-1 um/s'  ,        '-2 um/s'    ,    '-3 um/s'    ,      '-4um/s',    '-5 um/s'    ,      '-6um/s')
 figure(3)
 hold on
-plot(Force,abs(Velocity).*Force)
-xlabel('Force (kPa)')
-ylabel('Power (Watts)')
-legend('ATP = 2mM','ATP = 8mM')
-
+plot(abs(Velocity),abs(Velocity).*Force)
+xlabel('time (s)')
+ylabel('SL (um)')
 figure(4)
 hold on
 plot(Force,abs(Velocity))
 xlabel('Force (kPa)')
 ylabel('Velocity (um/s)')
-legend('ATP = 2mM','ATP = 8mM')
 

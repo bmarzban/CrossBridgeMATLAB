@@ -23,6 +23,8 @@ alpha3 = 1*par(10);
 s3 = par(11);
 K_Pi = par(12);
 K_T = par(18); 
+%  K_T = 5; 
+
 K_D = 0.194; % MgADP dissociation constant from Yamashita etal (Circ Res. 1994; 74:1027-33).
 g1 = (MgADP/K_D)/(1 + MgADP/K_D + MgATP/K_T); 
 g2 = (MgATP/K_T)/(1 + MgATP/K_T + MgADP/K_D); 

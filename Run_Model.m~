@@ -12,8 +12,8 @@ TmpC = 21; SL0 = 2.2; % um
 MgATP = 8.0; MgADP = 0.0; Pi = 0.0; % Experimental conditions from Palmer etal J Mol Cell Cardiol. 2013 Apr;57:23-31
 
 init = [zeros(1,9),SL0]; % Initial conditions for the model
-Velocity = [0.0:-1:-4]; % Afterloads agains which the sarcomere contracts
-% Velocity = -2;
+Velocity = [-4.0:-0.1:-5]; % Afterloads agains which the sarcomere contracts
+% Velocity = -4.4;
 mm = length(Velocity); vm = zeros(1,mm);
 tspan = [0:0.0005:0.7]; nn = length(tspan);
 dSL = zeros(nn,mm); Ftotal = zeros(nn,mm);
@@ -40,20 +40,25 @@ for j = 1:mm
 %    legend(num2str(Velocity(j)))
 % clear T Y SL
  Force (j) = mean(Ftotal(find(SL < 2.01 & SL>1.99),j))
- Force (1) = 0;
+ if j==1;
+ Force (1) = max(Ftotal(:,j));
  end
+end
 figure(1)
 legend( '0'       , '-1 um/s'  ,        '-2 um/s'    ,    '-3 um/s'    ,      '-4um/s',    '-5 um/s'    ,      '-6um/s')
 figure(2)
 legend( '0'       , '-1 um/s'  ,        '-2 um/s'    ,    '-3 um/s'    ,      '-4um/s',    '-5 um/s'    ,      '-6um/s')
 figure(3)
 hold on
-plot(abs(Velocity),abs(Velocity).*Force)
-xlabel('time (s)')
-ylabel('SL (um)')
+plot(Force,abs(Velocity).*Force)
+xlabel('Force (kPa)')
+ylabel('Power (Watts)')
+legend('ATP = 2mM','ATP = 8mM')
+
 figure(4)
 hold on
 plot(Force,abs(Velocity))
 xlabel('Force (kPa)')
 ylabel('Velocity (um/s)')
+legend('ATP = 2mM','ATP = 8mM')
 

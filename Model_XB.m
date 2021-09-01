@@ -23,7 +23,8 @@ alpha3 = 1*par(10);
 s3 = par(11);
 K_Pi = par(12);
 K_T = par(18); 
-% K_T = 7; 
+
+K_T = 1; 
 
 K_D = 0.194; % MgADP dissociation constant from Yamashita etal (Circ Res. 1994; 74:1027-33).
 g1 = (MgADP/K_D)/(1 + MgADP/K_D + MgATP/K_T); 
@@ -38,6 +39,7 @@ k2 = par(5)*1*Q10s(2)^((TmpC-17)/10);
 k_2 = par(6)*1*Q10s(1)^((TmpC-17)/10)*g1;
 k3 = par(7)*Q10s(1)^((TmpC-17)/10)*g2;%
 
+% k3 = k3 ;
 
 kpe2 = par(13)*Q10s(3)^((TmpC-17)/10);
 eta = par(14)*Q10s(3)^((TmpC-17)/10);
@@ -93,13 +95,15 @@ F_active = (B_process + C_process);
 [F_passive,dFpassive] = passiveForces(SL,SL_rest,kpe1);
 
 
+% f_myofibril = 0.45; % Percent Myofibril in Muscle from Palmer etal (Mol Cell Biochem. 2004 Aug;263(1-2):73-80)
 
-f_myofibril = 0.45; % Percent Myofibril in Muscle from Palmer etal (Mol Cell Biochem. 2004 Aug;263(1-2):73-80)
+f_myofibril = 1; % Percent Myofibril in Muscle from Palmer etal (Mol Cell Biochem. 2004 Aug;263(1-2):73-80)
 Ftotal = f_myofibril*(F_active + F_passive);%
 
 %% XB ODEs
 % dSL = ((intf/eta) - dfxb/kpe2)*heav(SL-SL_min)*heav(SL_max-SL)/den;
-dSL=heav(t - 0.15)*dSL *heav(SL-SL_min)*heav(SL_max-SL);
+% dsL1=heav(t - 0.15)*dSL *heav(SL-SL_min)*heav(SL_max-SL);
+dSL1 =0;
 dP1o = kf*Pu   - kb*P1o - k1*f_alpha1o + k_1*f_alpha0o;
 dP1i = 1*dSL*P1o - kb*P1i - k1*f_alpha1i + k_1*f_alpha0i;
 dP1w = 2*dSL*P1i - kb*P1w - k1*P1w + k_1*P2w;
@@ -112,5 +116,5 @@ dP3o =         + k2*f_alpha2o - k_2*f_alphao - k3*f_alpha3o;
 dP3i = 1*dSL*P3o + k2*f_alpha2i - k_2*f_alphai - k3*f_alpha3i;
 dP3w = 2*dSL*P3i + k2*P2w       - k_2*P3w - k3*P3w;
     
-dYdT = [dP1o; dP1i; dP1w; dP2o; dP2i; dP2w; dP3o; dP3i; dP3w; dSL];
+dYdT = [dP1o; dP1i; dP1w; dP2o; dP2i; dP2w; dP3o; dP3i; dP3w; dSL1];
 end

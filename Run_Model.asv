@@ -91,4 +91,4 @@ scatter(force_target,abs(Velocity))
 % ylim([0 5])
 xlim([0.0 100])
 end
-legend('ATP = 2mM','ATP = 2mM','ATP = 8mM','ATP = 8mM')
+legend('ATP = 2mM',2,'ATP = 8mM')

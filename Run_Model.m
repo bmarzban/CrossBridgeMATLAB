@@ -9,10 +9,10 @@ AxisFontSize = 18; LabelFontSize = 18;
 TmpC = 21; SL0 = 2.2; % um
 
 % Set metabolite concentrations, 
-MgATP = 2.0; MgADP = 0.0; Pi = 0.0; % Experimental conditions from Palmer etal J Mol Cell Cardiol. 2013 Apr;57:23-31
+MgATP = 8.0; MgADP = 0.0; Pi = 0.0; % Experimental conditions from Palmer etal J Mol Cell Cardiol. 2013 Apr;57:23-31
 
 init = [zeros(1,9),SL0]; % Initial conditions for the model
-Velocity = [0.0:-0.5:-4.5]; % Afterloads agains which the sarcomere contracts
+Velocity = [0.0:-0.5:-6]; % Afterloads agains which the sarcomere contracts
 % Velocity = -4.4;
 mm = length(Velocity); vm = zeros(1,mm);
 tspan = [0:0.0005:0.7]; nn = length(tspan);

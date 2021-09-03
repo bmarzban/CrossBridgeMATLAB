@@ -125,7 +125,5 @@ dP3i = 1*dSL*P3o + k2*f_alpha2i - k_2*f_alphai - k3*f_alpha3i;
 dP3w = 2*dSL*P3i + k2*P2w       - k_2*P3w - k3*P3w;
     
 dYdT = [dP1o; dP1i; dP1w; dP2o; dP2i; dP2w; dP3o; dP3i; dP3w; dSL1];
-if max(abs(dYdT))> 10e11
-    gibberish
-end
+if size()
 end

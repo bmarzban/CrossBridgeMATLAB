@@ -6,8 +6,8 @@ rng = ('shuffle');
 tic
 nvars = 6; 
 Mutation_rate = 0.8;
-Population_num = 200; 
-Max_gen = 50;
+Population_num = 300; 
+Max_gen = 100;
 % If not inside a slurm job, use 4 processors
 % if isempty(getenv('SLURM_NTASKS'))
 %     NP = 4;
@@ -41,8 +41,8 @@ gaoptions = optimoptions(gaoptions,'OutputFcn',@GA_DISP)
 
 var = [2 1 1 1 2 1];
 
-lb = var - var * 0.5;
-ub = var + var * 2;
+lb = var - var * 0.4;
+ub = var + var * 3;
 ConstraintFunction = [];
 objectiveGA=@(x)objective_fun_multi(x);
 

@@ -42,9 +42,9 @@ kf = adjvar(2) * kf;
 k3 = adjvar(3) * k3;
 V0 = adjvar(4)* 0.4;
 n = adjvar(5); 
-kf = kf.*(1/(1+(abs(dSL)/V0).^n));
+kf = kf.*(1./(1+(abs(dSL)/V0).^n));
 
-kf = kf*2.*exp((-(abs(dSL)-1).^2./3.5));
+% kf = kf.*exp((-(abs(dSL)-V0).^2./n));
 
 
 % k3 = k3 ;
@@ -106,7 +106,8 @@ F_active = (B_process + C_process);
 % f_myofibril = 0.45; % Percent Myofibril in Muscle from Palmer etal (Mol Cell Biochem. 2004 Aug;263(1-2):73-80)
 
 f_myofibril = adjvar(6); % Percent Myofibril in Muscle from Palmer etal (Mol Cell Biochem. 2004 Aug;263(1-2):73-80)
-Ftotal = f_myofibril*(F_active + F_passive/2);%
+Ftotal = f_myofibril*(F_active + F_passive/5);%
+% Ftotal = f_myofibril*(F_active );%
 
 %% XB ODEs
 % dSL = ((intf/eta) - dfxb/kpe2)*heav(SL-SL_min)*heav(SL_max-SL)/den;
@@ -125,7 +126,7 @@ dP3i = 1*dSL*P3o + k2*f_alpha2i - k_2*f_alphai - k3*f_alpha3i;
 dP3w = 2*dSL*P3i + k2*P2w       - k_2*P3w - k3*P3w;
     
 dYdT = [dP1o; dP1i; dP1w; dP2o; dP2i; dP2w; dP3o; dP3i; dP3w; dSL1];
-if max(abs(dYdT))> 10e11
+if max(abs(dYdT))> 10e12
     gibberish
 end
 end

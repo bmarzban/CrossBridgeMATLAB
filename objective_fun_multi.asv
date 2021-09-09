@@ -1,9 +1,0 @@
-function err_total = objective_fun_multi(adjvar)
-
-err2 = objective_function_velocity_ramps_ATP2(adjvar);
-
-err8 = objective_function_velocity_ramps_ATP8(adjvar);
-
-% ramp_err = objective_function_step_input(adjvar,F_exp_spline);
-% err_total = err2 + err8 + ramp_err;
-err_total = err2 + err8;

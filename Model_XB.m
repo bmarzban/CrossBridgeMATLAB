@@ -32,19 +32,21 @@ f1 = (Pi/K_Pi)/(1 + Pi/K_Pi); f2 = 1/(1 + Pi/K_Pi);
 
 kf = par(1)*Q10s(1)^((TmpC-17)/10);
 kb = par(2)*f1*Q10s(1)^((TmpC-17)/10);
-k1 = par(3)*f2*Q10s(1)^((TmpC-17)/10);%
-k_1 = par(4)*Q10s(1)^((TmpC-17)/10);%
-k2 = par(5)*1*Q10s(2)^((TmpC-17)/10);
-k_2 = par(6)*1*Q10s(1)^((TmpC-17)/10)*g1;
+% k1 = par(3)*f2*Q10s(1)^((TmpC-17)/10);%
+% k_1 = par(4)*Q10s(1)^((TmpC-17)/10);%
+% k2 = par(5)*1*Q10s(2)^((TmpC-17)/10);
+k1 = adjvar(7) * par(3)*f2*Q10s(1)^((TmpC-17)/10);%
+k_1 = 1*par(4)*Q10s(1)^((TmpC-17)/10);%
+k2 = adjvar(8) * par(5)*1*Q10s(2)^((TmpC-17)/10);
+k_2 = 1* par(6)*1*Q10s(1)^((TmpC-17)/10)*g1;
 k3 = par(7)*Q10s(1)^((TmpC-17)/10)*g2;%
-% 
-kf = adjvar(2) * kf;
+% kf = adjvar(2) * kf;
 k3 = adjvar(3) * k3;
 V0 = adjvar(4)* 0.4;
 n = adjvar(5); 
-kf = kf.*(1./(1+(abs(dSL)/V0).^n));
+% kf = kf.*(1./(1+(abs(dSL)/V0).^n));
 
-% kf = kf.*exp((-(abs(dSL)-V0).^2./n));
+kf = kf.*exp((-(abs(dSL)-V0).^2./n));
 
 
 % k3 = k3 ;
@@ -95,8 +97,11 @@ f_alpha3i = (P3i + alpha3*(s3*s3*P3i + 2*s3*P3w));
 %% Compute Active & Passive Force
 % Active Force
 dr = 0.01; % Power-stroke Size; Units: um
-B_process = kstiff2*dr*P3o;   % Force due to XB cycling
-C_process = kstiff1*(P2i+P3i);% Force due to stretching of XBs
+% B_process = (k3/40)*kstiff2*dr*P3o;   % Force due to XB cycling
+% C_process = (k3/40)*kstiff1*(P2i+P3i);% Force due to stretching of XBs
+B_process = adjvar(9) *kstiff2*(dr*P3o +P3i);   % Force due to XB cycling
+C_process = kstiff1*P2i;% Force due to stretching of XBs
+
 F_active = (B_process + C_process);
     
 % Non-linear Passive force; Adopted from Rice etal (Biophys J. 2008 Sep;95(5):2368-90)

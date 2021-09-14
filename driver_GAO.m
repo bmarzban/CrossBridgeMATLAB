@@ -4,9 +4,9 @@ rng = ('shuffle');
 
 % following: 
 tic
-nvars = 6; 
-Mutation_rate = 0.8;
-Population_num = 300; 
+nvars = 8; 
+Mutation_rate = 0.95;
+Population_num = 150; 
 Max_gen = 100;
 % If not inside a slurm job, use 4 processors
 % if isempty(getenv('SLURM_NTASKS'))
@@ -39,15 +39,17 @@ gaoptions = optimoptions(gaoptions,'OutputFcn',@GA_DISP)
 % I have divided the Fpassive by a factor of 2, to hav almost the same
 % range of passive force we have in the data. 
 
-var = [2 1 1 1 2 1];
-
-lb = var - var * 0.4;
-ub = var + var * 3;
+var = [2 1 1 1 2 1 1 1];
+var = [0.86568      1.8914      1.5898      0.7137      1.6975     0.76577      3.1153      2.3083]
+var =[0.554376      7.01067      5.17166      1.59578      2.30039     0.856523     1      1]
+var =[    0.0676   21.4669   25.8956    2.0328    2.8289    2.1745   30.7591   17.6528]
+lb = var - var * 0.9;
+ub = var + var * 30;
 ConstraintFunction = [];
 objectiveGA=@(x)objective_fun_multi(x);
 
-% lb(3) = 0.92;
-% ub(3) = 1.08;
+lb(7:8) = 1;
+ub(7:8) = 1;
 
 adjvar = ga(objectiveGA,nvars,[],[],[],[],lb,ub,ConstraintFunction,gaoptions)
 

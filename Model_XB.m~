@@ -63,15 +63,15 @@ kpe1 = par(16)*Q10s(5)^((TmpC-17)/10);
 kstiff2 = par(17)*Q10s(6)^((TmpC-17)/10); 
 
 %adding the super relaxed state
-K_coop =   adjvar(19.6846; % Campbell et al, Biophysical Journal 2018,
-k_on =  adjvar(16)* 101.1850 ; % Campbell et al, Biophysical Journal 2018
-k_off = adjvar(17)*723.8520 ; % manually tuned parameter!
+K_coop =   9.6846; % Campbell et al, Biophysical Journal 2018,
+k_on =  101.1850 ; % Campbell et al, Biophysical Journal 2018
+k_off = 723.8520 ; % manually tuned parameter!
 
 % transitions between super relaxed state and non relaxed state
-ksr = adjvar(18)*15.46 ; % mean sham = 15.46
+ksr = 15.46 ; % mean sham = 15.46
 % kforce =adjvar(19)* 1.551;  %dived by kPa to mmHg conversion rate mean sham = 1.5517
-sigma0 = adjvar(19)*25;
-kmsr =  adjvar(20)*  50.032 ; % made-up number
+sigma0 = 60;
+kmsr =  50.032 ; % made-up number
 
 % SL_max = 2.4; 
 % SL_min = 1.4;
@@ -149,7 +149,9 @@ dP3o =         + k2*f_alpha2o - k_2*f_alphao - k3*f_alpha3o;
 dP3i = 1*dSL*P3o + k2*f_alpha2i - k_2*f_alphai - k3*f_alpha3i;
 dP3w = 2*dSL*P3i + k2*P2w       - k_2*P3w - k3*P3w;
     
- U_NR =1* ksr * (F_active)/sigma0 * U_SR -1*kmsr*U_NR* (P0/N_overlap +N) ; 
+U_SR = 1 - U_NR;
+% U_NR =1* ksr * (abs(F_active))/sigma0 * U_SR -1*kmsr*U_NR* Pu  ; 
+U_NR =1* ksr * (exp(F_active/sigma0) * U_SR -1*kmsr*U_NR* Pu  ; 
 
 dYdT = [dP1o; dP1i; dP1w; dP2o; dP2i; dP2w; dP3o; dP3i; dP3w; dSL1; U_NR];
 if max(abs(dYdT))> 10e12

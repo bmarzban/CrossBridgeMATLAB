@@ -70,7 +70,7 @@ k_off = 723.8520 ; % manually tuned parameter!
 % transitions between super relaxed state and non relaxed state
 ksr = 15.46 ; % mean sham = 15.46
 % kforce =adjvar(19)* 1.551;  %dived by kPa to mmHg conversion rate mean sham = 1.5517
-sigma0 = 10;
+sigma0 = 60;
 kmsr =  50.032 ; % made-up number
 
 % SL_max = 2.4; 
@@ -89,6 +89,7 @@ P2w = y(6);
 P3o = y(7);
 P3i = y(8);
 P3w = y(9);
+
 Pu = 1 - P1o - P2o - P3o;
 
 SL = y(10);
@@ -150,7 +151,8 @@ dP3i = 1*dSL*P3o + k2*f_alpha2i - k_2*f_alphai - k3*f_alpha3i;
 dP3w = 2*dSL*P3i + k2*P2w       - k_2*P3w - k3*P3w;
     
 U_SR = 1 - U_NR;
-U_NR =1* ksr * (abs(F_active))/sigma0 * U_SR -1*kmsr*U_NR* Pu  ; 
+% U_NR =1* ksr * (abs(F_active))/sigma0 * U_SR -1*kmsr*U_NR* Pu  ; 
+U_NR =1* ksr * (exp(F_active/sigma0)) * U_SR -20*kmsr*U_NR* Pu  ; 
 
 dYdT = [dP1o; dP1i; dP1w; dP2o; dP2i; dP2w; dP3o; dP3i; dP3w; dSL1; U_NR];
 if max(abs(dYdT))> 10e12

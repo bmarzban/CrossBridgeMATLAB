@@ -77,7 +77,10 @@ for j = 1:mm
 Force(j) = Ftotal(end,j);
 
 %  end
-
+figure(5)
+hold on
+plot(T,U_NR)
+legend('U Not Relaxed')
 end
 % 
 % force_ATP2mM_sorted = [65.0903   43.5430   27.4392    7.6647    4.3771    2.4951    1.8673    1.0962];
@@ -124,8 +127,6 @@ scatter(force_target,abs(Velocity))
 % ylim([0 5])
 xlim([0.0 100])
 
-figure(5)
-plot(T,U_NR)
-legend('U Not Relaxed')
+
 end
 legend('ATP = 2mM','ATP = 2mM','ATP = 8mM','ATP = 8mM')

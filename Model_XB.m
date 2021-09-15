@@ -31,8 +31,8 @@ g1 = (MgADP/K_D)/(1 + MgADP/K_D + MgATP/K_T) *1;
 g2 = (MgATP/K_T)/(1 + MgATP/K_T + MgADP/K_D);
 f1 = (Pi/K_Pi)/(1 + Pi/K_Pi); f2 = 1/(1 + Pi/K_Pi); 
 
-V0 = adjvar(4)* 0.4;
-n = adjvar(5); 
+% V0 = adjvar(4)* 0.4;
+% n = adjvar(5); 
 
 kf = par(1)*Q10s(1)^((TmpC-17)/10)*1;
 kb = par(2)*f1*Q10s(1)^((TmpC-17)/10);
@@ -41,14 +41,14 @@ kb = par(2)*f1*Q10s(1)^((TmpC-17)/10);
 % k1 = par(3)*f2*Q10s(1)^((TmpC-17)/10);%
 % k_1 = par(4)*Q10s(1)^((TmpC-17)/10);%
 % k2 = par(5)*1*Q10s(2)^((TmpC-17)/10);
-k1 = adjvar(7) * par(3)*f2*Q10s(1)^((TmpC-17)/10)*1;%
+k1 = adjvar(2) * par(3)*f2*Q10s(1)^((TmpC-17)/10)*1;%
 k_1 = 1*par(4)*Q10s(1)^((TmpC-17)/10);%
-k2 = adjvar(8) * par(5)*1*Q10s(2)^((TmpC-17)/10);
+k2 = adjvar(3) * par(5)*1*Q10s(2)^((TmpC-17)/10);
 k_2 = 1* par(6)*1*Q10s(1)^((TmpC-17)/10)*g1*1;
 
-k3 = par(7)*Q10s(1)^((TmpC-17)/10)*g2%;
+k3 = par(7)*Q10s(1)^((TmpC-17)/10)*g2;%;
 % kf = adjvar(2) * kf;
-k3 = adjvar(3) * k3*1;
+k3 = adjvar(4) * k3*1;
 
 % kf = kf.*(1./(1+(abs(dSL)/V0).^n));
 
@@ -56,22 +56,22 @@ k3 = adjvar(3) * k3*1;
 
 
 
-kpe2 = par(13)*Q10s(3)^((TmpC-17)/10);
-eta = par(14)*Q10s(3)^((TmpC-17)/10);
+% kpe2 = par(13)*Q10s(3)^((TmpC-17)/10);
+% eta = par(14)*Q10s(3)^((TmpC-17)/10);
 kstiff1 = par(15)*Q10s(4)^((TmpC-17)/10); 
 kpe1 = par(16)*Q10s(5)^((TmpC-17)/10);
 kstiff2 = par(17)*Q10s(6)^((TmpC-17)/10); 
 
-%adding the super relaxed state
-K_coop =   9.6846; % Campbell et al, Biophysical Journal 2018,
-k_on =  101.1850 ; % Campbell et al, Biophysical Journal 2018
-k_off = 723.8520 ; % manually tuned parameter!
+% %adding the super relaxed state
+% K_coop =   9.6846; % Campbell et al, Biophysical Journal 2018,
+% k_on =  101.1850 ; % Campbell et al, Biophysical Journal 2018
+% k_off = 723.8520 ; % manually tuned parameter!
 
 % transitions between super relaxed state and non relaxed state
-ksr = 15.46 ; % mean sham = 15.46
+ksr = adjvar(5) *  15.46 ; % mean sham = 15.46
 % kforce =adjvar(19)* 1.551;  %dived by kPa to mmHg conversion rate mean sham = 1.5517
-sigma0 = 60;
-kmsr =  50.032 ; % made-up number
+sigma0 = adjvar(6) * 60;
+kmsr = adjvar(7) *  50.032 * 20 ; % made-up number
 
 % SL_max = 2.4; 
 % SL_min = 1.4;
@@ -116,7 +116,7 @@ f_alpha3i = (P3i + alpha3*(s3*s3*P3i + 2*s3*P3w));
 % Active Force
 dr = 0.01; % Power-stroke Size; Units: um
 B_process = kstiff2*dr*P3o;   % Force due to XB cycling
-C_process = kstiff1*(P2i+P3i);% Force due to stretching of XBs
+C_process = adjvar(9)*kstiff1*(P2i+P3i);% Force due to stretching of XBs
 % B_process = 0.5 *kstiff2*(dr*P3o +P3i);   % Force due to XB cycling
 % C_process = kstiff1*P2i;% Force due to stretching of XBs
 
@@ -128,7 +128,7 @@ F_active = (B_process + C_process);
 
 % f_myofibril = 0.45; % Percent Myofibril in Muscle from Palmer etal (Mol Cell Biochem. 2004 Aug;263(1-2):73-80)
 
-f_myofibril = adjvar(6); % Percent Myofibril in Muscle from Palmer etal (Mol Cell Biochem. 2004 Aug;263(1-2):73-80)
+f_myofibril = adjvar(8); % Percent Myofibril in Muscle from Palmer etal (Mol Cell Biochem. 2004 Aug;263(1-2):73-80)
 Ftotal = f_myofibril*(F_active + F_passive/5);%
 % Ftotal = f_myofibril*(F_active );%
 
@@ -152,7 +152,7 @@ dP3w = 2*dSL*P3i + k2*P2w       - k_2*P3w - k3*P3w;
     
 U_SR = 1 - U_NR;
 % U_NR =1* ksr * (abs(F_active))/sigma0 * U_SR -1*kmsr*U_NR* Pu  ; 
-U_NR =1* ksr * (exp(F_active/sigma0)) * U_SR -20*kmsr*U_NR* Pu  ; 
+U_NR =1* ksr * (exp(F_active/sigma0)) * U_SR -kmsr*U_NR* Pu  ; 
 
 dYdT = [dP1o; dP1i; dP1w; dP2o; dP2i; dP2w; dP3o; dP3i; dP3w; dSL1; U_NR];
 if max(abs(dYdT))> 10e12

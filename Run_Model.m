@@ -6,9 +6,10 @@ TmpC = 21; SL0 = 2.2; % um
 
 % Set metabolite concentrations, 
 MgATP_all = [2 8]; 
-MgADP = 0.0; Pi = 0; % Experimental conditions from Palmer etal J Mol Cell Cardiol. 2013 Apr;57:23-31
+MgADP_all = MgATP_all/50; Pi = 0; % Experimental conditions from Palmer etal J Mol Cell Cardiol. 2013 Apr;57:23-31
 for k = 1:length(MgATP_all)
     MgATP= MgATP_all(k);
+    MgADP= MgADP_all(k);
 init = [zeros(1,9),SL0,0.2]; % Initial conditions for the model
 % Velocity = [0.0:-0.5:-6]; % Afterloads agains which the sarcomere contracts
 Velocity = [0, -0.5,-1, -2 ,-3,-4,-5]
@@ -17,7 +18,7 @@ mm = length(Velocity); vm = zeros(1,mm);
 tspan = [0:0.0005:0.7]; nn = length(tspan);
 
 dSL = zeros(nn,mm); Ftotal = zeros(nn,mm);
-adjvar = [2 1 1 1 2 1 1 1]
+adjvar = [2 1 1 1 1 1 1 1 1]
 % adjvar = [1.2288      0.9233     0.92438     0.96558      3.1201     0.78526 1 1]
 % adjvar = [1.6         0.8     0.94184         0.8         2.6     0.81503 1 1]
 % adjvar = [ 1.0456       1.096     0.52951     0.59008      2.1276     0.60655]
@@ -43,6 +44,8 @@ adjvar = [2 1 1 1 2 1 1 1]
 % adjvar = [13.1632          0.8       1.6031          0.8      1.91318     0.902125          0.8      0.89256           11           11          0.8]
 % adjvar =[1.6          0.8      5.36591      5.82473           22          0.8           11           11 1 1 1]
 % adjvar =[1.60274      1.67384      6.84905      2.36059      2.54046     0.946731      10.9995      10.9986     0.801933]
+adjvar= [0.800003     0.818715     0.531077      10.7326      10.5187     0.512554      6.32803           11]
+adjvar =[0.3591173       5.04698     0.4098209      117.9929      108.4118     0.2724523      67.33641      20.27924]
 tic;
 for j = 1:mm
     options = odeset('RelTol',1e-3,'AbsTol',1e-6,'MaxStep',1e-3);
